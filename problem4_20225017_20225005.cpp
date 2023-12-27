@@ -1,56 +1,47 @@
 #include <iostream>
-#include <cstdlib>
-#include <string>
-#include <ctime>  
 using namespace std;
 
-// Define constants for locations and dirt status (global)
-const int A = 0, B = 1,CLEAN = 0,DIRTY = 1;
+int summation = 0;
 
-// Function to randomly generate the location and dirt status
-void Percept(int &location, int &status) {
-    location = rand() % 2;  // 0 for A, 1 for B
-    status = rand() % 2;    // 0 for clean, 1 for dirty
+int summ(int lowerBound, int upperBound)
+{
+    
+    summation += lowerBound;
+    if (lowerBound == upperBound)
+    {
+        return summation;
+    }
+    else
+    {
+      return  summ(lowerBound + 1, upperBound);
+    }
 }
 
-// Function to perform the  action based on the percept
-void Action(int location, int status, string &history) {
-    if (location == 0 && status == 0 )
-        {
-            history += " A ";
-             cout << "( A , Clean )  Move to Right ."<<endl ;
-         }
-    else if (location == 0 && status == 1)
+int main()
+{
+    int start, end;
+    cout << "Enter starting Number : \n";
+    cin >> start;
+    cout << "Enter ending Number : \n";
+    cin >> end;
+    while (start > end)
     {
-        history += " A ";
-        cout << "( A , Dirty )   Suck the dirt ." << endl;
+        cout << " Starting number must be less than ending number \n";
+        cout << "Enter starting Number : \n";
+        cin >> start;
+        cout << "Enter ending Number : \n";
+        cin >> end;
     }
-    else if (location == 1 && status == 0)
+    if (start == end)
     {
-        history += " B ";
-         cout << "( B , Clean )  Move to Left ." << endl; 
+        cout << "sumation from " << start << " to "<< end << " is ";
+        cout << start *2 ;
     }
-    else if (location == 1 && status == 1)
+    else
     {
-         history += " B ";
-         cout << "( B , Dirty )  Suck the dirt ." << endl ;
+        cout << "sumation from " << start << " to "<< end << " is "<< summ(start, end);
     }
-   }
 
-int main() {
-    srand(time(0));  // seed random number generator 
-    int location, status;
-    string history = " ";
-    // Perform 3 iterations for history 
-    for (int i = 0; i < 3; i++) {
-        Percept(location, status);
-        cout << "Iteration " << i+1 << ": ";
-        cout << "Location = " << location << ", Status = " << status << endl;
-        Action(location, status,history);
-        cout << endl;
-    }
-    cout<< history;
+    
     return 0;
 }
-
-
